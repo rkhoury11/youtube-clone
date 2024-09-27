@@ -1,5 +1,5 @@
 import express  from "express";
-import ffmpeg from "fluent-ffmpeg"; // CLI tool, won't do anything if the computer doesn't have it
+import FfmpegCommand from "fluent-ffmpeg";
 
 const app = express();
 app.use(express.json());
@@ -19,7 +19,7 @@ app.post("/process-video", (req,res) => {
         res.status(400).send("Bad request: missing file path."); // client error
     }
 
-    ffmpeg(inputFilePath)
+    FfmpegCommand(inputFilePath)
         .outputOptions("-vf", "scale=-1:360")
         .on("end", () => {
             res.status(200).send("Processing finished successfully"); // this function is async
